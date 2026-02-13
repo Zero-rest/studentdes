@@ -20,7 +20,7 @@ jobs:
           java-version: '17'
 
       - name: Install Gradle 8.5
-  run: choco install gradle --version=8.5.0 -y --allow-downgrade --force
+        run: choco install gradle --version=8.5.0 -y --allow-downgrade --force
 
 
       - name: Verify Gradle
