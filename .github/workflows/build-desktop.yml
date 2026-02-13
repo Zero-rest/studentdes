@@ -1,0 +1,35 @@
+name: Build Desktop EXE/MSI
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install Gradle 8.5.0
+        run: choco install gradle --version=8.5.0 -y
+
+      - name: Verify Gradle
+        run: gradle -v
+
+      - name: Build EXE and MSI
+        run: gradle --no-daemon packageReleaseExe packageReleaseMsi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: StudentDispatch-Desktop
+          path: build/compose/binaries/main-release/
